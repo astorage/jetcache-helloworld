@@ -1,0 +1,21 @@
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      expireAfterWriteInMillis: 100000
+  remote:
+    default:
+      type: redis
+      keyConvertor: fastjson
+      #valueEncoder: java
+      #valueDecoder: java #kryo
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      host: 10.100.2.41
+      port: 6379
+      password: yinghuo
