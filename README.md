@@ -1,7 +1,7 @@
 # jetcache-helloworld
-jetcache 主要是引入jetcache-starter-redis包
-在spring上下文中使用@EnableCreateCacheAnnotation
-然后就可以使用jetcache了，当然一些配置是不能少的
+# jetcache 主要是引入jetcache-starter-redis包
+# 在spring上下文中使用@EnableCreateCacheAnnotation
+# 然后就可以使用jetcache了，当然一些配置是不能少的
 jetcache:
   statIntervalMinutes: 15
   areaInCacheName: false
