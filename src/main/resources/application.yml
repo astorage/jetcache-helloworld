@@ -11,11 +11,12 @@ jetcache:
       type: redis
       keyConvertor: fastjson
       #valueEncoder: java
-      #valueDecoder: java #kryo
+      valueDecoder: java #kryo #
+
       poolConfig:
         minIdle: 5
         maxIdle: 20
         maxTotal: 50
-      host: 10.100.2.41
+      host: 192.168.40.215 #      47.101.132.45
       port: 6379
-      password: yinghuo
+      #password: yinghuo
