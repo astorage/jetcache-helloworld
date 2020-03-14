@@ -31,13 +31,17 @@ public class StringTokenTestController {
         Jedis jedis = jedisPool.getResource();
         jedis.select(7);
         Set<String> userSet = new HashSet<>();
+        Set<String> tokenSet = new HashSet<>();
         for (String token : tokenList) {
             String userId = jedis.get(token);
-            userId = handleUserCode(userId);
-            userSet.add(userId);
+            userId = handleUserCode1(userId);
+            if (userId != null && !userSet.contains(userId)) {
+                userSet.add(userId);
+                tokenSet.add(token);
+            }
         }
         System.out.println(userSet.size());
-        return userSet;
+        return tokenSet;
     }
 
     private static final String CUSTOMER = "CUSTOMER";
@@ -55,6 +59,19 @@ public class StringTokenTestController {
                 return SERVICER + "-" + servicers[1];
             }
             return CUSTOMER + "-" + customers[1];
+
+        }
+        return null;
+    }
+
+
+    private String handleUserCode1(String userId) {
+        if (userId != null) {
+            String[] customers = userId.split(CUSTOMER);
+            if (customers.length < 2) {
+               return null;
+            }
+            return customers[1];
 
         }
         return null;
