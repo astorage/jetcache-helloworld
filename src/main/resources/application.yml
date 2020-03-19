@@ -20,3 +20,16 @@ jetcache:
       host: 192.168.40.215 #      47.101.132.45
       port: 6379
       #password: yinghuo
+
+
+spring:
+  redis:
+    host: 192.168.40.215
+    port: 6379
+    password:
+    lettuce:
+      pool:
+        max-idle: 30
+        max-active: 10
+        max-wait: 10000
+    database: 0

@@ -150,7 +150,7 @@ public class ListTestController {
         List<String> returnMsgList = jedis.brpop(key);
         return returnMsgList;
     }
-    @RequestMapping("/test/list/lpop")
+    @RequestMapping("/test/list/blpop")
     public List<String> blpop(String key) {
         List<String> returnMsgList = jedis.blpop(key);
         return returnMsgList;

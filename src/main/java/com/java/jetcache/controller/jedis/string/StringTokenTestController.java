@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.io.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,14 +35,72 @@ public class StringTokenTestController {
         Set<String> tokenSet = new HashSet<>();
         for (String token : tokenList) {
             String userId = jedis.get(token);
-            userId = handleUserCode1(userId);
+            userId = handleUserCode(userId);
             if (userId != null && !userSet.contains(userId)) {
                 userSet.add(userId);
-                tokenSet.add(token);
+                tokenSet.add(token.substring(16));
             }
         }
         System.out.println(userSet.size());
         return tokenSet;
+    }
+
+
+    @RequestMapping("/test_cache_redis/string/getall/fromFile")
+    public Set<String> queryUserIdListByFile () throws Exception{
+        String inputFilePath = "E:\\jmeter-data\\tokens.txt";
+        BufferedReader bufferedReader = getreader(inputFilePath);
+        String outFilePath = "E:\\jmeter-data\\test-all-tokens.csv";
+        BufferedWriter bufferedWriter = getwriter(outFilePath);
+        JedisPool jedisPool = cache.unwrap(JedisPool.class);
+        Jedis jedis = jedisPool.getResource();
+        jedis.select(7);
+        Set<String> userSet = new HashSet<>();
+        Set<String> tokenSet = new HashSet<>();
+        String token;
+        while ((token = bufferedReader.readLine()) != null) {
+            String userId = jedis.get(token);
+            userId = handleUserCode(userId);
+            if (userId != null && !userSet.contains(userId)) {
+                userSet.add(userId);
+                tokenSet.add(token.substring(16));
+                bufferedWriter.write(token.substring(16));
+                bufferedWriter.newLine();
+            }
+        }
+        bufferedWriter.flush();
+        bufferedWriter.close();
+        bufferedReader.close();
+        System.out.println(userSet.size());
+        return tokenSet;
+    }
+
+    private BufferedReader getreader(String filePath) {
+        try {
+            File file = new File(filePath);
+            FileInputStream inputStream = new FileInputStream(file);
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+            InputStreamReader reader = new InputStreamReader(bufferedInputStream);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            return bufferedReader;
+        }catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+
+    private BufferedWriter getwriter(String filePath)  {
+        try {
+            File fileout = new File(filePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(fileout);
+            OutputStreamWriter writer = new OutputStreamWriter(fileOutputStream);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+            return bufferedWriter;
+        }catch (Exception e) {
+            System.out.println(e);
+        }
+       return null;
     }
 
     private static final String CUSTOMER = "CUSTOMER";
