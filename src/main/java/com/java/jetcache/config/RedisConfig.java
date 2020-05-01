@@ -57,7 +57,7 @@ public class RedisConfig {
         LettuceConnectionFactory lettuceConnectionFactory = (LettuceConnectionFactory) redisConnectionFactory;
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(
                 lettuceConnectionFactory.getHostName(), lettuceConnectionFactory.getPort());
-        //redisStandaloneConfiguration.setDatabase(0);
+        redisStandaloneConfiguration.setDatabase(7);
         redisStandaloneConfiguration.setPassword(lettuceConnectionFactory.getPassword());
         LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(
                 redisStandaloneConfiguration, lettuceConnectionFactory.getClientConfiguration());
@@ -68,9 +68,9 @@ public class RedisConfig {
         redisTemplate.setKeySerializer(stringSerializer);
         redisTemplate.setHashKeySerializer(stringSerializer);
         redisTemplate.setConnectionFactory(connectionFactory);
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+//        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+//        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+//        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         return redisTemplate;
     }
 

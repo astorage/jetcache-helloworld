@@ -1,3 +1,6 @@
+server:
+  port: 8300
+
 jetcache:
   statIntervalMinutes: 15
   areaInCacheName: false
@@ -17,14 +20,18 @@ jetcache:
         minIdle: 5
         maxIdle: 20
         maxTotal: 50
-      host: 192.168.40.215 #      47.101.132.45
+      host: 
       port: 6379
+
+#      host: r-uf6ab6446315d8c4.redis.rds.aliyuncs.com #192.168.40.215 #      47.101.132.45
+
+#      password: LwiVq77lKjMW
       #password: yinghuo
 
 
 spring:
   redis:
-    host: 192.168.40.215
+    host:
     port: 6379
     password:
     lettuce:
@@ -32,4 +39,5 @@ spring:
         max-idle: 30
         max-active: 10
         max-wait: 10000
-    database: 0
+    database: 7
+
